@@ -1,0 +1,199 @@
+---
+title: "Learning data visualisation in `{ggplot2}`"
+author: "Dr Massimiliano Canzi"
+format: 
+  revealjs:
+    transition-speed: fast
+    transition: fade
+    background-transition: fade
+    chalkboard: true
+    slide-number: true
+    show-slide-number: print
+    touch: true
+    controls: true
+    theme: theme-mc.scss
+    incremental: true
+    footer: "`massimiliano.canzi@uni-konstanz.de`, __PRIF__, 01-02.12.2025"
+---
+
+```{r}
+#| include: false
+library(tidyverse)
+library(palmerpenguins)
+```
+
+## Introduction
+
+Massimiliano (_Max_) Canzi 
+
+* __Data Scientist__ / __Lab Manager__ @ Dept. of Linguistics, Uni Konstanz
+* __PhD in Linguistics__ @ Dept. of Linguistics, Uni of Manchester 
+
+## Who..
+
+Are __you__?
+
+## Course structure: **Day 1**
+
+## Course structure: **Day 2**
+
+## Learning outcomes
+
+* Understand the `ggplot2` syntax and principles: Gain a firm understanding of the `ggplot2` package
+* Create a variety of plot types: learn how to create and customize different types of plots, including scatter plots, bar plots, line plots, histograms, and more.
+* Understand how to manipulate elements like `color`, `size`, `shape`, and theme to make visually pleasing and effective plots
+
+## Learning outcomes
+
+* Learn how to use `ggplot2` to transform data, summarize it statistically, and display those summaries on your plots
+* Develop the ability to build complex, multi-layered plots by adding multiple geometries to the same plot
+* ...
+
+## Notation
+
+- **!!** = *good practice*
+- **??** = *mistake, bad practice*
+
+# Introduction to `ggplot2` 
+
+_Slides are primarily intended as a visual aid for the audience during the workshop. To review the concepts learnt today, please make use of the other materials provided to you_.
+
+## It figures
+
+__Discussion__: Why do we add figures to our papers / reports? Which function would you say figures carry out in a quantitative analysis?
+
+## R, the `tidyverse` and `ggplot2`
+
+`tidyverse` is a series of `R` packages and functions created by [__H. Wickham__](https://twitter.com/hadleywickham) and colleagues that substitute many of the base `R` alternatives, while at the same time being easier to write, read and reproduce. However, there is no way around knowing the basics of base `R` before we dive into the `tidyverse`. 
+
+## R, the `tidyverse` and `ggplot2`
+
+`ggplot2` is a package made by H. Wickham, which is part of the `tidyverse` library. The `ggplot` function (from `ggplot2`) substitutes the `plot` function from Base R. 
+
+## R, the `tidyverse` and `ggplot2`
+
+`ggplot2` > `plot`
+
+* Much more customisable 
+* Many more types of plots available 
+* Easily hackable by users 
+* Wealth of third-party packages available
+* Publication-ready with a few tweaks
+
+## R, the `tidyverse` and `ggplot2`
+
+One of the advantage of all `tidyverse` packages is that they share a common syntax, making it easier for the user to use new tools often without struggling with guessing how these tools work. 
+
+`ggplot2` follows a similar philosophy. While you can create countless, different figures and plots in `ggplot2`, they way you do it is very predictable once you're familiar with the package.
+
+## `ggplot2`: the fundamentals 
+
+In particular, `ggplot2` exists on __three__ fundamental layers, which can then be expanded with countless, optional ones. The three fundamental layers are: 
+
+* `data`: you can't have a `ggplot2` object without an underlying data set. Data is usually in __long form__ (one column == one variable). 
+
+## `ggplot2`: the fundamentals
+
+* `aesthetics` or `aes`: your data is then mapped onto certain aesthethics. For instance, a specific variable can be mapped to the X or Y axis, another variable to the shape or color used in the plot. Aesthethics do not determine the type of plot that is created. 
+* `geometries` or `geom`: determine the type of plot that is created. You can have variable A mapped to the X axis, and variable B mapped to the Y axis, and apply 50+ geoms to create 50 different plots with the same two variables. 
+
+## `ggplot2`: the fundamentals
+
+```{r, warning = F}
+#| eval: false
+#| echo: true
+penguins %>% 
+  ggplot(aes(x = bill_length_mm, y = bill_depth_mm)) + 
+  geom_point()
+```
+
+## `ggplot2`: the fundamentals
+
+```{r}
+#| echo: true
+head(penguins)
+```
+
+## `ggplot2`: the fundamentals
+
+```{r}
+#| echo: true
+penguins %>% 
+  ggplot(aes(x = flipper_length_mm, y = body_mass_g))
+```
+
+## `ggplot2`: the fundamentals
+
+```{r, warning = F}
+#| echo: true
+penguins %>% 
+  ggplot(aes(x = flipper_length_mm, y = body_mass_g)) + 
+  geom_point()
+```
+
+## `ggplot2`: the fundamentals
+
+```{r}
+#| echo: true
+#| warning: false
+#| message: false
+penguins %>% 
+  ggplot(aes(x = flipper_length_mm, y = body_mass_g)) + 
+  geom_smooth(method = "lm")
+```
+
+## `ggplot2`: the fundamentals
+
+```{r}
+#| echo: true
+#| warning: false
+#| message: false
+penguins %>% 
+  ggplot(aes(x = flipper_length_mm, y = body_mass_g)) + 
+  geom_point() +
+  geom_smooth(method = "lm")
+```
+
+## Optional layers 
+
+\{...\}
+
+## Optional layers
+
+```{r}
+#| echo: true
+#| warning: false
+#| message: false
+penguins %>% 
+  ggplot(aes(x = flipper_length_mm, y = body_mass_g)) + 
+  geom_point() +
+  geom_smooth(method = "lm") + 
+  theme_minimal()
+```
+
+## Optional layers
+
+```{r}
+#| echo: true
+#| warning: false
+#| message: false
+penguins %>% 
+  ggplot(aes(x = flipper_length_mm, y = body_mass_g)) + 
+  geom_point(aes(col = species)) +
+  geom_smooth(method = "lm") + 
+  theme_minimal()
+```
+
+## Optional layers
+
+```{r}
+#| echo: true
+#| warning: false
+#| message: false
+penguins %>% 
+  ggplot(aes(x = flipper_length_mm, y = body_mass_g)) + 
+  geom_point() +
+  geom_smooth(method = "lm") + 
+  theme_minimal() + 
+  facet_wrap(~species)
+```

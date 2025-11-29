@@ -1,0 +1,51 @@
+---
+title: "Maps"
+output: html_document
+date: "2025-11-15"
+---
+
+```{r, include = F}
+# for loading our data
+library(countries)
+library(raster)
+library(readr)
+library(readxl)
+library(sf)
+# for datasets
+library(maps)
+library(spData)
+# for plotting
+library(grid)
+library(tmap)
+library(viridis)
+library(tidyverse)
+```
+
+```{r}
+World <- tmap::World
+```
+
+```{r, include = F}
+data <- read_csv("data/economics_and_education_dataset_CSV.csv") %>% 
+  mutate(iso_a3 = country_name(index_code))
+d2000s <- data %>% filter(time > 2001, time <= 2009) %>% 
+  summarise(mmri = mean(mortality_rate_infant),
+            unemployment = mean(unemployment), .by = c("time", "iso_a3"))
+d2010s <- data %>% filter(time > 2010, time <= 2020) %>% 
+  summarise(mmri = mean(mortality_rate_infant),
+            unemployment = mean(unemployment), .by = c("time", "iso_a3"))
+```
+
+```{r, include = F}
+joint2000 <- World %>% left_join(d2000s, by = "iso_a3") %>% 
+  #filter(continent == "Europe") %>% 
+  group_by(iso_a3) %>% slice_sample(n = 1) %>% 
+  na.omit()
+```
+
+```{r, include = F}
+joint2010 <- World %>% left_join(d2010s, by = "iso_a3") %>% 
+  #filter(continent == "Europe") %>% 
+  group_by(iso_a3) %>% slice_sample(n = 1) %>%  
+  na.omit()
+```

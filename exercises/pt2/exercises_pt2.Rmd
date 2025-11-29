@@ -1,0 +1,437 @@
+---
+title: "PRIF Workshop on Data Visualization: Exercises Pt. 2"
+author: "Massimiliano Canzi"
+date: "01-02.12.2025"
+output:
+  html_document:
+    theme: united
+---
+
+```{r}
+library(tidyverse)
+```
+
+```{r, echo = F}
+knitr::opts_chunk$set(warning = FALSE)
+knitr::opts_chunk$set(message = FALSE)
+knitr::opts_chunk$set(echo = T)
+```
+
+```{css, echo=FALSE}
+.container-fluid.main-container{
+max-width: 85%
+}
+.tabset{
+    display: flex;
+
+}
+
+.nav.nav-pills {
+    flex: 15%;
+    width: 100%;
+}
+.nav.nav-pills li{
+    width: 100%;
+}
+.tab-content{
+    flex: 85%;
+    width: 100%
+}
+```
+
+```{r, echo = F, include = F}
+### Install packages 
+# install.packages("ggplot2")
+# install.packages("ggridges")
+# install.packages("tidyverse")
+# install.packages("janitor")
+# install.packages("kableExtra")
+# install.packages("unikn")
+# install.packages("ggpubr")
+# install.packages("sjPlot")
+
+### Load libraries 
+library(tidyverse)
+library(ggplot2)
+library(ggridges)
+library(janitor) # helpful to clean col names `clean_names()`
+library(kableExtra) # to display and edit tables 
+library(unikn) # for uni Konstanz theme 
+library(ggpubr) # to arrange plots 
+library(sjPlot) 
+
+# set options for tables 
+bs_style <- c("striped", "hover", "condensed", "responsive")
+options(kable_styling_bootstrap_options = bs_style)
+```
+
+
+#  {.tabset .tabset-pills .tabcontent}
+
+
+------------------------------------------------------------------------
+
+## Exercises: Day 2 {.tabset .tabset-pills .tabcontent}
+
+------------------------------------------------------------------------
+
+> Data 
+
+------------------------------------------------------------------------
+
+```{r, echo = F}
+read_csv("economics_and_education_dataset_CSV.csv") %>% janitor::clean_names() -> df 
+kable(head(df)) %>% kable_styling()
+```
+
+------------------------------------------------------------------------
+
+[**Source**: <https://www.kaggle.com/datasets/walassetomaz/pisa-results-2000-2022-economics-and-education?resource=download>]
+
+------------------------------------------------------------------------
+
+**Dataset structure**
+
+- `index_code`: Index code.
+
+- `expenditure_on_education_pct_gdp`: Expenditure on education as a percentage of GDP.
+
+- `mortality_rate_infant`: Infant mortality rate.
+
+- `gini_index`: Gini index.
+
+- `gdp_per_capita_ppp`: GDP per capita in terms of purchasing power parity.
+
+- `inflation_consumer_prices`: Consumer price inflation.
+
+- `intentional_homicides`: Intentional homicides.
+
+- `unemployment`: Unemployment rate.
+
+- `gross_fixed_capital_formation`: Gross fixed capital formation as a percentage of GDP.
+
+- `population_density`: Population density.
+
+- `suicide_mortality_rate`: Suicide mortality rate.
+
+- `tax_revenue`: Tax revenue.
+
+- `taxes_on_income_profits_capital`: Taxes on income, profits, and capital gains.
+
+- `alcohol_consumption_per_capita`: Total alcohol consumption per capita.
+
+- `government_health_expenditure_pct_gdp`: Government health expenditure as a percentage of GDP.
+
+- `urban_population_pct_total`: Urban population percentage of the total population.
+
+- `country`: Country.
+
+- `time`: Years.
+
+- `sex`: Sex.
+
+- `rating`: Value of PISA (Programme for International Student Assessment) Results.
+
+------------------------------------------------------------------------
+
+### Exercise C1: geom_density_ridges() 
+
+------------------------------------------------------------------------
+
+> Plot the distribution of `government_health_expenditure_pct_gdp` and `mortality_rate_infant` for the following countries: Australia, United States and Canada. Use `geom_density_ridges()`
+
+- The name of the country should be on the y axis and each country should have two density lines within the same panel
+- `government_health_expenditure_pct_gdp` and `mortality_rate_infant` should be scaled 
+- Ethe colors and transparency
+- Look at the exercises of day 1 for how to manipulate the data 
+- Add a title and remove labels 
+
+------------------------------------------------------------------------
+
+```{r}
+### Run this code 
+df %>% 
+  dplyr::select(country, mortality_rate_infant, government_health_expenditure_pct_gdp) %>% 
+  mutate(across(2:3, ~scale(.x))) %>% 
+  filter(country %in% c("AUS", "USA", "CAN")) %>% 
+  pivot_longer(names_to = "measure", values_to = "value", 2:3) -> ex.c1
+```
+
+```{r}
+
+```
+
+```{r, message = F}
+### Write your code here 
+```
+
+------------------------------------------------------------------------
+
+### Exercise C2: theme() and annotate()
+
+------------------------------------------------------------------------
+
+> In the plot of exercise C1, remove the legend using `theme()` and manually write it inside the plot using `annotate()`
+
+- The name of the country should be on the y axis and each country should have two density lines within the same panel
+- `government_health_expenditure_pct_gdp` and `mortality_rate_infant` should be scaled 
+- Remove the legend, edit the colors and transparency
+- Look at the exercises of day 1 for how to manipulate the data 
+- Add a title and remove labels 
+
+------------------------------------------------------------------------
+
+
+```{r, message = F}
+colors <- c("orange", "deepskyblue3")
+alpha <- c(0.7, 0,2)
+```
+
+```{r, message = F}
+### Write your code here 
+# use ex.c1
+```
+
+------------------------------------------------------------------------
+
+### Exercise C3: geom_histogram() & ggarrange()
+
+------------------------------------------------------------------------
+
+> Plot the distribution of all continuous variables in 2018 with `geom_histogram()` and display them in a single plot using `ggarrange()`
+
+- Remove ylab
+- Reduce the size of the x label 
+
+------------------------------------------------------------------------
+
+```{r}
+### Run this code 
+df %>% 
+  filter(time == 2018) %>%  
+  dplyr::select(2:16, 20) %>% 
+  mutate_all(~scale(.x)) -> ex.c3
+```
+
+
+
+```{r}
+### Write your code here 
+```
+
+
+------------------------------------------------------------------------
+
+
+### Exercise C4: annotate_figure()
+
+------------------------------------------------------------------------
+
+> Use the plot of exercise C3 and change the color of the histograms, and annotate the final arranged grid adding a caption using `annotate_figure()`
+
+------------------------------------------------------------------------
+
+```{r}
+### Write your code here 
+```
+
+
+------------------------------------------------------------------------
+
+### Exercise C5: geom_bar()
+
+------------------------------------------------------------------------
+
+> Plot the `mean` value of `rating` by `country` with a bar chart. Use `geom_bar(stat = "identity")`
+
+- Each bar should have a different color based on `country`
+- x axis labels should be vertical and bold 
+- remove the legend 
+- Add a title 
+
+------------------------------------------------------------------------
+
+```{r}
+### Run this code first 
+df %>% 
+  filter(sex == "TOT") %>% 
+  summarize(
+    mean = round(mean(rating),2), 
+    .by = c("country")
+  ) -> ex.c5
+```
+
+
+```{r}
+### Write your code here 
+```
+
+------------------------------------------------------------------------
+
+### Exercise C6: geom_bar() & annotate()
+
+------------------------------------------------------------------------
+
+> Use the plot of exercise C5 and annotate the `mean` value as a label above each column using `annotate()`
+
+- Use `ex.c5`
+
+------------------------------------------------------------------------
+
+```{r}
+### Write your code here 
+```
+
+
+------------------------------------------------------------------------
+
+### Exercise C7: geom_point() & geom_line()
+
+------------------------------------------------------------------------
+
+> Plot the change in the trend of `unemployment` in Germany, France, Ireland and Italy over `time` using `geom_point()` and `geom_line()`. 
+
+> The trend for each country should be displayed in a separate panel using `facet_wrap()`. 
+
+- Edit the color as you prefer and remove unnecessary information to facilitate visualization (e.g., the legend, in this case)
+
+------------------------------------------------------------------------
+
+```{r}
+### Run this code first 
+df %>% 
+  filter(country %in% c("ITA", "DEU", "FRA", "IRL")) %>% 
+  summarize(
+    unemployment = unemployment, 
+    unemployement.mean = round(mean(unemployment),0),
+    sd.un = sd(unemployment), 
+    suic.mean = round(mean(suicide_mortality_rate),0),
+    sd.su = sd(suicide_mortality_rate), 
+    .by = c("country", "time")
+  ) -> ex.c7
+```
+
+```{r}
+### Write your code here 
+```
+
+
+------------------------------------------------------------------------
+
+### Exercise C8: ggarrange() & annotate_figure()
+
+------------------------------------------------------------------------
+
+> In a plot similar to the one from exercise C7, annotate the mean of `unemployment` at each `time` point for each `country`. Use `ggarrange()` here. 
+
+- Add y axes label, a title and a caption using `annotate_figure()`. 
+
+------------------------------------------------------------------------
+
+```{r}
+### Run this code first 
+df %>% 
+  filter(country %in% c("ITA", "DEU", "FRA", "IRL")) %>% 
+  summarize(
+    unemployment = unemployment, 
+    unemployement.mean = round(mean(unemployment),0),
+    sd.un = sd(unemployment), 
+    suic.mean = round(mean(suicide_mortality_rate),0),
+    sd.su = sd(suicide_mortality_rate), 
+    .by = c("country", "time")
+  ) -> ex.c8
+```
+
+
+
+```{r}
+### Write your code here 
+```
+
+------------------------------------------------------------------------
+
+### Exercise C9: geom_smooth() & geom_jitter()
+
+------------------------------------------------------------------------
+
+> Plot the change in `taxes_on_income_profits_capital` based on `gdp_per_capita_ppp` in 2018 using `geom_smooth()`. 
+
+> Plot the distribution of the data using `geom_jitter()`. 
+
+------------------------------------------------------------------------
+
+```{r}
+### Run this code
+df %>% 
+  mutate(taxes_on_income_profits_capital = scale(taxes_on_income_profits_capital),
+         gdp_per_capita_ppp = scale(gdp_per_capita_ppp)) %>% 
+  filter(time == 2018) -> ex.c9
+```
+
+```{r}
+### Write your code here 
+```
+
+------------------------------------------------------------------------
+
+### Exercise C10: geom_boxplot() & geom_hline()
+
+------------------------------------------------------------------------
+
+> Using a `boxplot()`, plot `rating` over time. 
+
+- The distribution of the data should be plotted above the boxplot using `geom_jitter()`. 
+- Draw a horizontal line to indiate the mean level of `rating` using `geom_hline()`
+- Add this code before `ggplot`: `df %>% mutate(time = as.factor(time))`
+
+------------------------------------------------------------------------
+
+```{r}
+### Write your code here 
+```
+
+------------------------------------------------------------------------
+
+### Challenge 
+
+------------------------------------------------------------------------
+
+> 1. Plot where the PISA ratings were collected in 2018 with map using `geom_polyglon()`
+
+------------------------------------------------------------------------
+
+```{r}
+# Run this code first
+map_data("world") -> world
+country_mapping <- c(
+  AUS = "Australia", AUT = "Austria", BEL = "Belgium", CAN = "Canada", CHL = "Chile",
+  COL = "Colombia", CRI = "Costa Rica", CZE = "Czech Republic", DNK = "Denmark", EST = "Estonia",
+  FIN = "Finland", FRA = "France", DEU = "Germany", GRC = "Greece", HUN = "Hungary", ISL = "Iceland",
+  IRL = "Ireland", ISR = "Israel", ITA = "Italy", JPN = "Japan", KOR = "South Korea", LVA = "Latvia",
+  LTU = "Lithuania", LUX = "Luxembourg", MEX = "Mexico", NLD = "Netherlands", NZL = "New Zealand",
+  NOR = "Norway", POL = "Poland", PRT = "Portugal", SVK = "Slovakia", SVN = "Slovenia", ESP = "Spain",
+  SWE = "Sweden", CHE = "Switzerland", TUR = "Turkey", USA = "United States", GBR = "United Kingdom",
+  BRA = "Brazil"
+)
+
+# Add full country name column
+df %>%
+  mutate(full_country_name = country_mapping[country]) -> df 
+
+# Join data frames
+df %>%
+  filter(sex == "TOT" & time == 2018) %>%
+  rename(region = full_country_name) %>%
+  dplyr::select(region, rating) -> df.map.2018
+
+common.cols <- intersect(names(df.map.2018), names(world))
+left_join(world, df.map.2018, by = common.cols) -> df.map.2018
+```
+
+```{r}
+### Write your code here 
+# use df.map.2018
+```
+
+------------------------------------------------------------------------
+

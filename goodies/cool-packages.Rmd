@@ -1,0 +1,74 @@
+---
+title: "Some interesting packages"
+output: html_document
+date: "2025-12-02"
+---
+
+```{r}
+library(tidyverse)
+library(palmerpenguins)
+```
+
+--- `{ggside}`
+
+https://www-r--bloggers-com.cdn.ampproject.org/v/s/www.r-bloggers.com/2021/05/visualization-graphs-ggside-with-ggplot/
+
+```{r}
+#install.packages("devtools")
+library(devtools)
+#devtools::install_github("jtlandis/ggside")
+library(ggside)
+```
+
+```{r, warning = F}
+penguins %>% ggplot(aes(x = body_mass_g, y = flipper_length_mm)) + 
+  theme_minimal() +
+  geom_point() + 
+  scale_fill_viridis_d(option = "mako")
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+--- `{grafify}`
+
+https://www-r--bloggers-com.cdn.ampproject.org/v/s/www.r-bloggers.com/2021/06/grafify-make-great-looking-ggplot2-graphs-quickly-with-r/
+
+```{r}
+#remotes::install_github("ashenoy-cmbi/grafify@*release", dependencies = T)
+library(grafify)
+```
+
+```{r}
+penguins %>% plot_scatterbox(species, flipper_length_mm)
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+--- `{ggstatsplot}`
+
+```{r}
+#install.packages("ggstatsplot")
+library(ggstatsplot)
+```
+
+```{r}
+ggbetweenstats(penguins, 
+               x = species,
+               y = flipper_length_mm)
+```
+
+```{r}
+
+```

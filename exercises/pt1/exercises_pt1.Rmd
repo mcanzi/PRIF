@@ -1,0 +1,373 @@
+---
+title: "PRIF Workshop on Data Visualization: Exercises Pt. 1"
+author: "Massimiliano Canzi"
+date: "01.12.2025"
+output:
+  html_document:
+    theme: united
+---
+
+```{r, echo = F}
+knitr::opts_chunk$set(warning = FALSE)
+knitr::opts_chunk$set(message = FALSE)
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{css, echo=FALSE}
+.container-fluid.main-container{
+max-width: 85%
+}
+.tabset{
+    display: flex;
+
+}
+
+.nav.nav-pills {
+    flex: 15%;
+    width: 100%;
+}
+.nav.nav-pills li{
+    width: 100%;
+}
+.tab-content{
+    flex: 85%;
+    width: 100%
+}
+```
+
+```{r, echo = F}
+# install.packages("ggplot2")
+# install.packages("ggridges")
+# install.packages("tidyverse")
+# install.packages("janitor")
+# install.packages("kableExtra")
+# install.packages("unikn")
+# install.packages("ggpubr")
+# install.packages("sjPlot")
+
+library(tidyverse)
+library(ggplot2)
+library(ggridges)
+library(janitor) 
+library(kableExtra) 
+library(unikn) 
+library(ggpubr)
+library(sjPlot) 
+
+bs_style <- c("striped", "hover", "condensed", "responsive")
+options(kable_styling_bootstrap_options = bs_style)
+```
+
+
+#  {.tabset .tabset-pills .tabcontent}
+
+
+------------------------------------------------------------------------
+
+## Exercises: Day 1 {.tabset .tabset-pills .tabcontent}
+
+------------------------------------------------------------------------
+
+> Data 
+
+------------------------------------------------------------------------
+
+```{r, echo = F}
+read_csv("economics_and_education_dataset_CSV.csv") %>% janitor::clean_names() -> df
+```
+
+```{r, echo = F}
+kable(head(df)) %>% kable_styling()
+```
+
+------------------------------------------------------------------------
+
+[**Source**: <https://www.kaggle.com/datasets/walassetomaz/pisa-results-2000-2022-economics-and-education?resource=download>]
+
+------------------------------------------------------------------------
+
+**Dataset structure**
+
+- `index_code`: Index code.
+
+- `expenditure_on_education_pct_gdp`: Expenditure on education as a percentage of GDP.
+
+- `mortality_rate_infant`: Infant mortality rate.
+
+- `gini_index`: Gini index.
+
+- `gdp_per_capita_ppp`: GDP per capita in terms of purchasing power parity.
+
+- `inflation_consumer_prices`: Consumer price inflation.
+
+- `intentional_homicides`: Intentional homicides.
+
+- `unemployment`: Unemployment rate.
+
+- `gross_fixed_capital_formation`: Gross fixed capital formation as a percentage of GDP.
+
+- `population_density`: Population density.
+
+- `suicide_mortality_rate`: Suicide mortality rate.
+
+- `tax_revenue`: Tax revenue.
+
+- `taxes_on_income_profits_capital`: Taxes on income, profits, and capital gains.
+
+- `alcohol_consumption_per_capita`: Total alcohol consumption per capita.
+
+- `government_health_expenditure_pct_gdp`: Government health expenditure as a percentage of GDP.
+
+- `urban_population_pct_total`: Urban population percentage of the total population.
+
+- `country`: Country.
+
+- `time`: Years.
+
+- `sex`: Sex.
+
+- `rating`: Value of PISA (Programme for International Student Assessment) Results.
+
+
+------------------------------------------------------------------------
+
+### Exercise A1: Choose the right plot
+
+------------------------------------------------------------------------
+
+> Plot the relationship between `alcohol_consumption_per_capita` and `suicide_mortality_rate`
+
+------------------------------------------------------------------------
+
+The purpose of this exercise is to **select the right plot**. Here, the two variables are **continuous**. 
+
+```{r, eval = F, warning = F}
+
+```
+
+------------------------------------------------------------------------
+
+### Exercise A2: Choose the right plot
+
+------------------------------------------------------------------------
+
+> Plot the `government_health_expenditure_pct_gdp` over the years (`time`) for Australia only (AUS)
+
+------------------------------------------------------------------------
+
+The purpose of this exercise is to **select the right plot**. Here, the two variables are **continuous**. However, we have **time** data, so we want to see the trend of `government_health_expenditure_pct_gdp` over time. 
+
+```{r}
+### Run this 
+df %>% 
+  filter(country == "AUS") -> ex.a2
+```
+
+```{r}
+
+```
+
+------------------------------------------------------------------------
+
+### Exercise A3: Choose the right plot
+
+------------------------------------------------------------------------
+
+> Plot the PISA `rating` by `sex` 
+
+------------------------------------------------------------------------
+
+The purpose of this exercise is to **select the right plot**. Here, we have a **categorical** variable and a **continuous** variable. What is the best type of plot? 
+
+**Note**: You do not have to plot the "TOT" level from the `sex` column. To do this, add the following code before the `ggplot` function: 
+`df %>% filter(sex != "TOT")`. 
+
+```{r}
+df %>% 
+  filter(sex != "TOT") %>% 
+```
+
+
+------------------------------------------------------------------------
+
+### Exercise A4: Choose the right plot
+
+------------------------------------------------------------------------
+
+> Plot the distribution of PISA `rating`
+
+------------------------------------------------------------------------
+
+```{r}
+### Write your code here 
+```
+
+------------------------------------------------------------------------
+
+### Exercise A5: Choose the right plot
+
+------------------------------------------------------------------------
+
+> Plot the distribution of `population_density` for Italy (ITA) and Germany (DEU)
+
+- To filter only Italy and Germany, add this code before the `ggplot()` function: `df %>% filter(country %in% c("ITA", "DEU"))`
+
+------------------------------------------------------------------------
+
+```{r}
+### Write your code here 
+```
+
+------------------------------------------------------------------------
+
+### Exercise B1: geom_point()
+
+------------------------------------------------------------------------
+
+> Plot the relationship between `expenditure_on_education_pct_gdp` and `rating` using `geom_point()`
+
+- The dots should be red 
+
+------------------------------------------------------------------------
+
+```{r}
+### Write your code here 
+```
+
+------------------------------------------------------------------------
+
+### Exercise B2: geom_point() & geom_line()
+
+------------------------------------------------------------------------
+
+> Plot the PISA `rating` over the years (`time`) for Italy only (ITA) by `sex` using `geom_point()` and `geom_line()`
+
+- Set the color and shape/type of the points and lines by `sex`
+- Change the color according to your preferences 
+- To filter only Italy and remove sex = TOT, run this before the `ggplot` function: `df %>% filter(country == "ITA" & sex != "TOT")`
+
+------------------------------------------------------------------------
+
+```{r}
+### Write your code here 
+```
+
+1ST: Assign linetype to sex
+2nd: change linetype to "dashed", "dotted"
+
+scale_color_manual = choose "cols" for dots and lines 
+scale_fill_manual = choose fill colors for areas 
+scale_linetype_manual = choose line type 
+scale_shape_manual - choose pch (point) shape 
+
+------------------------------------------------------------------------
+
+### Exercise B3: geom_point() & theme()
+
+------------------------------------------------------------------------
+
+> Plot the PISA `rating` by `country` in 2018 with geom_point using `geom_point()` 
+
+- Set the point color by rating 
+- Remove the plot legend using `theme()`
+- Make the x axis text vertical using `theme()`
+- Remove axis labels
+- To filter only sex = TOT and time = 2018, add this before the `ggplot` function: `df %>% filter(sex == "TOT" & time == 2018)`
+
+------------------------------------------------------------------------
+
+```{r}
+### Write your code here 
+```
+
+
+------------------------------------------------------------------------
+
+### Exercise B4: geom_density_ridges()
+
+------------------------------------------------------------------------
+
+> Plot the distribution of PISA `rating` and `expenditure_on_education_pct_gdp` in 2015 with `geom_density_ridges()`
+
+- Remove x and y lab and the legend using `theme()`
+- Set the color of the plot by measure 
+
+------------------------------------------------------------------------
+
+**Note**: You have to edit the df first, so run the following code 
+
+```{r}
+### Run this code 
+```
+
+
+------------------------------------------------------------------------
+
+```{r}
+### Write your code here 
+# use ex.B4
+```
+
+------------------------------------------------------------------------
+
+### Exercise B5: geom_point() & geom_errorbar()
+
+------------------------------------------------------------------------
+
+> Plot the mean and standard deviation of `expenditure_on_education_pct_gdp` for Italy and Germany using `geom_point()` and `geom_errorbar()`
+
+- Edit point and line color and type by country 
+- Set the colors you prefer 
+- Change the axis limits
+
+------------------------------------------------------------------------
+
+```{r}
+### Run this code 
+df %>% 
+  filter(country == "ITA" | country == "DEU") %>% 
+  summarize(
+    mean = mean(expenditure_on_education_pct_gdp), 
+    sd = sd(expenditure_on_education_pct_gdp), 
+    .by = "country"
+  ) -> ex.b5
+```
+
+
+```{r}
+### Write your code here 
+# use ex.b5
+```
+
+
+------------------------------------------------------------------------
+
+### Challenge 
+
+------------------------------------------------------------------------
+
+> Plot the distribution of the data on the plot of exercise B5
+
+- Edit the color and lineyype as you prefer and reduce the dots opacity in `geom_jitter()`
+
+------------------------------------------------------------------------
+
+```{r}
+### Run this code
+df %>% 
+  filter(country == "ITA" | country == "DEU") %>% 
+  summarize(
+    mean = mean(expenditure_on_education_pct_gdp), 
+    sd = sd(expenditure_on_education_pct_gdp), 
+    .by = "country"
+  ) -> challenge
+```
+
+
+
+```{r}
+### Write your code here 
+# use challenge
+```
+
+------------------------------------------------------------------------

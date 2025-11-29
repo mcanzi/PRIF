@@ -1,0 +1,201 @@
+---
+title: "PRIF Workshop on Data Visualization: Exercises Pt. 3"
+author: "Massimiliano Canzi"
+date: "02.12.2025"
+output:
+  html_document:
+    theme: united
+---
+
+```{r}
+library(tidyverse)
+library(ggeffects)
+library(lme4)
+library(sjPlot)
+```
+
+```{r, echo = F}
+knitr::opts_chunk$set(warning = FALSE)
+knitr::opts_chunk$set(message = FALSE)
+knitr::opts_chunk$set(echo = T)
+```
+
+```{css, echo=FALSE}
+.container-fluid.main-container{
+max-width: 85%
+}
+.tabset{
+    display: flex;
+
+}
+
+.nav.nav-pills {
+    flex: 15%;
+    width: 100%;
+}
+.nav.nav-pills li{
+    width: 100%;
+}
+.tab-content{
+    flex: 85%;
+    width: 100%
+}
+```
+
+```{r, echo = F, include = F}
+### Install packages 
+# install.packages("ggplot2")
+# install.packages("ggridges")
+# install.packages("tidyverse")
+# install.packages("janitor")
+# install.packages("kableExtra")
+# install.packages("unikn")
+# install.packages("ggpubr")
+# install.packages("sjPlot")
+
+### Load libraries 
+library(tidyverse)
+library(ggplot2)
+library(ggridges)
+library(janitor) # helpful to clean col names `clean_names()`
+library(kableExtra) # to display and edit tables 
+library(unikn) # for uni Konstanz theme 
+library(ggpubr) # to arrange plots 
+library(sjPlot) 
+
+# set options for tables 
+bs_style <- c("striped", "hover", "condensed", "responsive")
+options(kable_styling_bootstrap_options = bs_style)
+```
+
+#  {.tabset .tabset-pills .tabcontent}
+
+------------------------------------------------------------------------
+
+## Exercises: Day 2 {.tabset .tabset-pills .tabcontent}
+
+------------------------------------------------------------------------
+
+> Data 
+
+------------------------------------------------------------------------
+
+```{r, echo = F}
+read_csv("economics_and_education_dataset_CSV.csv") %>% janitor::clean_names() -> df 
+kable(head(df)) %>% kable_styling()
+```
+
+------------------------------------------------------------------------
+
+[**Source**: <https://www.kaggle.com/datasets/walassetomaz/pisa-results-2000-2022-economics-and-education?resource=download>]
+
+------------------------------------------------------------------------
+
+**Dataset structure**
+
+- `index_code`: Index code.
+
+- `expenditure_on_education_pct_gdp`: Expenditure on education as a percentage of GDP.
+
+- `mortality_rate_infant`: Infant mortality rate.
+
+- `gini_index`: Gini index.
+
+- `gdp_per_capita_ppp`: GDP per capita in terms of purchasing power parity.
+
+- `inflation_consumer_prices`: Consumer price inflation.
+
+- `intentional_homicides`: Intentional homicides.
+
+- `unemployment`: Unemployment rate.
+
+- `gross_fixed_capital_formation`: Gross fixed capital formation as a percentage of GDP.
+
+- `population_density`: Population density.
+
+- `suicide_mortality_rate`: Suicide mortality rate.
+
+- `tax_revenue`: Tax revenue.
+
+- `taxes_on_income_profits_capital`: Taxes on income, profits, and capital gains.
+
+- `alcohol_consumption_per_capita`: Total alcohol consumption per capita.
+
+- `government_health_expenditure_pct_gdp`: Government health expenditure as a percentage of GDP.
+
+- `urban_population_pct_total`: Urban population percentage of the total population.
+
+- `country`: Country.
+
+- `time`: Years.
+
+- `sex`: Sex.
+
+- `rating`: Value of PISA (Programme for International Student Assessment) Results.
+
+
+------------------------------------------------------------------------
+
+### Exercise: D1
+
+------------------------------------------------------------------------
+
+```{r}
+model <- lmer(taxes_on_income_profits_capital ~ tax_revenue + (1 | country), df)
+```
+
+> Using plot_model(), draw the relationship between taxes_on_income_profits_capital and tax_revenue, modelled in the above linear mixed-effect model. 
+
+------------------------------------------------------------------------
+
+```{r, message = F}
+### Write your code here 
+plot_model(model, type = "pred", terms = c("tax_revenue"))
+```
+
+------------------------------------------------------------------------
+
+### Exercise: D2
+
+------------------------------------------------------------------------
+
+> Let's extract the model estimates from the above model, using ggeffects' ggpredict() 
+
+```{r}
+estimates <- ggpredict(model, terms = c("tax_revenue"))
+```
+
+> Now, we can use ggplot to manually plot the estimates, using our preferred method and aesthestics. 
+
+------------------------------------------------------------------------
+
+```{r, message = F}
+### Write your code here 
+
+```
+
+------------------------------------------------------------------------
+
+### Exercise: D3
+
+------------------------------------------------------------------------
+
+```{r}
+model2 <- lmer(taxes_on_income_profits_capital ~ tax_revenue * unemployment + (1 | country), df)
+```
+
+```{r}
+plot_model(model2, type = "pred", terms = c("unemployment", "tax_revenue"))
+```
+
+> Let's extract the model estimates from the above model, using ggeffects' ggpredict() 
+
+```{r}
+
+```
+
+> Now, we can use ggplot to manually plot the estimates, using our preferred method and aesthestics. 
+
+```{r}
+
+```

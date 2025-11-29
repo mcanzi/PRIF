@@ -1,0 +1,257 @@
+---
+title: "Colors and shapes"
+author: "Dr Massimiliano Canzi"
+format: 
+  revealjs:
+    transition-speed: fast
+    transition: fade
+    background-transition: fade
+    chalkboard: true
+    slide-number: true
+    show-slide-number: print
+    touch: true
+    controls: true
+    theme: theme-mc.scss
+    incremental: true
+    footer: "`massimiliano.canzi@uni-konstanz.de`, __PRIF__, 01-02.12.2025"
+---
+
+```{r}
+#| include: false
+library(tidyverse)
+library(palmerpenguins)
+```
+
+## Colors
+
+* _color_
+* _colour_
+
+## Colors
+
+There are two main ways of adding color(s): 
+
+* Adding one specific colour
+* Assigning colors to dimensions of your data
+
+There's also two types of color patterns: 
+
+* `col` for dots and lines
+* `fill` for areas
+
+## Colors 
+
+* If you just want to add a specific color, add `col = "red"` within a specific geometry directly. 
+* If you want to assign colors by levels of a variable, specify this in the `aes`
+
+# `col`
+
+## `col` 
+
+```{r}
+#| echo: true
+#| warning: false
+penguins %>% 
+  ggplot(aes(x = flipper_length_mm, y = body_mass_g)) + 
+  geom_point(col = "blue")
+```
+
+## `col` 
+
+```{r}
+#| echo: true
+#| warning: false
+penguins %>% 
+  ggplot(aes(x = flipper_length_mm, y = body_mass_g, col = species)) + 
+  geom_point()
+```
+
+## `col` 
+
+```{r}
+#| echo: true
+#| warning: false
+penguins %>% 
+  ggplot(aes(x = flipper_length_mm, y = body_mass_g, col = species)) + 
+  geom_point(col = "blue") # ??
+```
+
+## `col` 
+
+```{r}
+#| echo: true
+#| warning: false
+penguins %>% 
+  ggplot(aes(x = flipper_length_mm, y = body_mass_g, col = species)) + 
+  geom_point() + 
+  geom_smooth(method = "lm")
+```
+
+## `col`  
+
+```{r}
+#| echo: true
+#| warning: false
+penguins %>% 
+  ggplot(aes(x = flipper_length_mm, y = body_mass_g)) + 
+  geom_point() + 
+  geom_smooth(method = "lm", aes(col = species))
+```
+
+## `col` 
+
+```{r}
+#| echo: true
+#| warning: false
+penguins %>% 
+  ggplot(aes(x = flipper_length_mm, y = body_mass_g)) + 
+  geom_point(aes(col = species)) + 
+  geom_smooth(method = "lm", col = "black")
+```
+
+## `scale_color_manual`
+
+```{r}
+#| echo: true
+#| warning: false
+penguins %>% 
+  ggplot(aes(x = flipper_length_mm, y = body_mass_g)) + 
+  geom_point() + 
+  geom_smooth(method = "lm", aes(col = species)) + 
+  scale_color_manual(values = c("indianred2", "steelblue3", "goldenrod3"))
+```
+
+# `fill`
+
+## `fill`
+
+```{r}
+#| echo: true
+#| warning: false
+penguins %>% 
+  ggplot(aes(x = species, y = body_mass_g)) + 
+  geom_boxplot()
+```
+
+## `fill`
+
+```{r}
+#| echo: true
+#| warning: false
+penguins %>% 
+  ggplot(aes(x = species, y = body_mass_g)) + 
+  geom_boxplot(col = "deepskyblue3") # ??
+```
+
+## `fill`
+
+```{r}
+#| echo: true
+#| warning: false
+penguins %>% 
+  ggplot(aes(x = species, y = body_mass_g)) + 
+  geom_boxplot(fill = "deepskyblue3")
+```
+
+## `fill`
+
+```{r}
+#| echo: true
+#| warning: false
+penguins %>% 
+  ggplot(aes(x = species, y = body_mass_g)) + 
+  geom_boxplot(fill = "deepskyblue3", alpha = 0.5)
+```
+
+## `fill`
+
+```{r}
+#| echo: true
+#| warning: false
+penguins %>% 
+  ggplot(aes(x = species, y = body_mass_g, fill = species)) + 
+  geom_boxplot(alpha = 0.5)
+```
+
+## `fill`
+
+```{r}
+#| echo: true
+#| warning: false
+penguins %>% 
+  ggplot(aes(x = species, y = body_mass_g, fill = species)) + 
+  geom_boxplot(alpha = 0.5) + 
+  scale_fill_manual(values = c("indianred2", "deepskyblue3", "goldenrod3"))
+```
+
+# `size` and `type`
+
+## `size` and `type`
+
+```{r}
+#| echo: true
+#| warning: false
+penguins %>% 
+  ggplot(aes(x = flipper_length_mm, y = body_mass_g)) + 
+  geom_point() + 
+  geom_smooth(method = "lm", aes(col = species)) + 
+  scale_color_manual(values = c("indianred2", "steelblue3", "goldenrod3"))
+```
+
+## `size` and `type`
+
+```{r}
+#| echo: true
+#| warning: false
+penguins %>% 
+  ggplot(aes(x = flipper_length_mm, y = body_mass_g)) + 
+  geom_point(size = 1) + 
+  geom_smooth(method = "lm", aes(col = species)) + 
+  scale_color_manual(values = c("indianred2", "steelblue3", "goldenrod3"))
+```
+
+## `size` and `type`
+
+```{r}
+#| echo: true
+#| warning: false
+penguins %>% 
+  ggplot(aes(x = flipper_length_mm, y = body_mass_g)) + 
+  geom_point(size = 2) + 
+  geom_smooth(method = "lm", aes(col = species)) + 
+  scale_color_manual(values = c("indianred2", "steelblue3", "goldenrod3"))
+```
+
+# ??
+
+## `size` and `type`
+
+```{r}
+#| echo: true
+#| warning: false
+penguins %>% 
+  ggplot(aes(x = flipper_length_mm, y = body_mass_g, size = species)) + 
+  geom_point() + 
+  geom_smooth(method = "lm", aes(col = species)) + 
+  scale_color_manual(values = c("indianred2", "steelblue3", "goldenrod3"))
+```
+
+# !!
+
+## `size` and `type`
+
+```{r}
+#| echo: true
+#| warning: false
+penguins %>% 
+  ggplot(aes(x = flipper_length_mm, y = body_mass_g)) + 
+  geom_point(aes(pch = species)) + 
+  geom_smooth(method = "lm", aes(col = species, linetype = species)) + 
+  scale_color_manual(values = c("indianred2", "steelblue3", "goldenrod3"))
+```
+
+# Belt and suspenders 
+
+Both keep your trousers where they should be
+
+

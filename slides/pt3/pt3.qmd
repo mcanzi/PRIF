@@ -1,0 +1,234 @@
+---
+title: "Good practices in Data Visualisation"
+author: "Massimiliano Canzi"
+format: 
+  revealjs:
+    transition-speed: fast
+    transition: fade
+    background-transition: fade
+    chalkboard: true
+    slide-number: true
+    show-slide-number: print
+    touch: true
+    controls: true
+    theme: theme-mc.scss
+    incremental: true
+    footer: "`massimiliano.canzi@uni-konstanz.de`"
+---
+
+```{r}
+#| include: false
+library(sjPlot)
+library(tidyverse)
+library(viridis)
+```
+
+## Focus 
+
+* Just like text, figures should enhance 'the story'
+* Less is more 
+
+## Approaches 
+
+A common approach to data analysis and quantitative research is the __figures first__ approach, suggesting that: 
+
+* Even before you collect your data, you should have in mind how the data will be presented in your report / paper
+* This is also true for the type of analysis you are conducting e.g. the design you choose to test will influence the variables you will analyse, as well as the figures you will produce. 
+
+## Approaches 
+
+Figures should balance: 
+
+* Including enough information to provide a clear, honest presentation of the data (or the analysis)
+* Not too much information (avoid superfluos information) which could be detrimental to a clearer interpretation of the figure. 
+
+## Approaches
+
+# 'Ethical' figures
+
+How much information is enough? 
+
+## 'Ethical' figures
+
+- __The magnitude of a difference__: All else being equal, the bigger the difference between two groups, the more you should expect there to be a difference in the population. 
+- __The variability in the data__: All else being equal, the less variability there is within the sample, the more cer tain you can be that you have estimated a difference accurately. 
+- __The sample size__: All else being equal, bigger samples allow you to measure differences more accurately.
+
+## 'Ethical' figures 
+
+It is important that figures address these points. Often misleading figures only focus on the __magnitude of a difference__, but discount the __variability in the data__ and the __sample size__. 
+
+We will learn ways to address these points. 
+
+More specifically: 
+
+* Colors, shapes, types should __be used to improve__ the readability of the figure
+* Certain colors, shape and types may be detrimental to the interpretability of the figure and should be avoided 
+
+## Color palettes 
+
+The case of `viridis`
+
+```{r}
+#| echo: true
+#| eval: false
+library(viridis)
+
+p + scale_color_viridis(...)
+```
+
+Let's look at Viridis together:
+
+...
+
+## Color palettes 
+
+Let's look at Viridis together: 
+
+```{r}
+#| echo: true
+plot1 <- iris %>% ggplot(aes(x = Sepal.Length, y = Sepal.Width, 
+                             col = Species)) + 
+  geom_point() +
+  theme_minimal()
+plot1
+```
+
+## Color palettes 
+
+Let's look at Viridis together: 
+
+```{r}
+#| echo: true
+plot1 <- iris %>% ggplot(aes(x = Sepal.Length, y = Sepal.Width, 
+                             col = Species)) + 
+  geom_point() + scale_color_viridis_d(option = "viridis") +
+  theme_minimal()
+plot1
+```
+
+#
+
+A few more tools to enhance your overall experience with ggplot2
+
+## `facet_wrap` 
+
+Facet wrap allows you to create separate, equal plots for multiple levels of the same variable. For example: 
+
+## `facet_wrap` 
+
+```{r}
+#| echo: true
+plot1 <- iris %>% ggplot(aes(x = Sepal.Length, y = Sepal.Width, 
+                             col = Species)) + 
+  geom_point()
+plot1
+```
+
+## `facet_wrap` 
+
+```{r}
+#| echo: true
+plot1 <- iris %>% ggplot(aes(x = Sepal.Length, y = Sepal.Width, 
+                             col = Species)) + 
+  geom_point() + facet_wrap(~Species)
+plot1
+```
+
+## The __right__ plot 
+
+* Figures are often a direct representation of the __raw data__
+* However, figures showing outcomes of statistical analyses are just as valuable, the case of `plot_model()` from package `sjPlot`
+
+## The `sjPlot` plot
+
+`plot_model()` is an implementation of `ggpredict()` from package `ggeffects` and `ggplot()` from package `ggplot2`. 
+
+`plot_model()` extracts model estimates from your (mostly linear regression) model and plots them for you. The plots are `ggplot2` objects that can 
+
+## The `sjPlot` plot
+
+```{r}
+#| echo: true
+plot_model(iris %>% lm(formula = Sepal.Length ~ Sepal.Width), type = "pred", 
+           terms = "Sepal.Width")
+```
+
+## The `sjPlot` plot
+
+```{r}
+#| echo: true
+plot_model(iris %>% lm(formula = Sepal.Length ~ Sepal.Width + Petal.Width * Species), 
+           type = "pred", terms = "Sepal.Width")
+```
+
+# Publication-ready graphs 
+
+## `ggpubr` and `ggannotate`
+
+`ggpubr` is as package that allows you to tie multiple `ggplot2` objects in a coherent way, so that they are __publication-ready__. 
+
+Given two `ggplot2` objects `plot1` and `plot2`, you can use `ggarrange` to create one `ggplot2` object that connects both plots. 
+
+## `ggpubr` and `ggannotate`
+
+```{r}
+#| echo: true
+plot1 <- iris %>% ggplot(aes(x = Sepal.Length, y = Sepal.Width, 
+                             col = Species)) + 
+  geom_point()
+plot1
+```
+
+## `ggpubr` and `ggannotate`
+
+```{r}
+#| echo: true
+plot2 <- iris %>% ggplot(aes(x = Petal.Length, col = Species)) + 
+  geom_density()
+plot2
+```
+
+## `ggpubr` and `ggannotate`
+
+```{r}
+#| echo: true
+final_plot <- ggpubr::ggarrange(plot1, plot2)
+final_plot
+```
+
+## `ggpubr` and `ggannotate`
+
+If the plots are similar enough, you might be able to use a common legend across both plots, like so: 
+
+```{r}
+#| echo: true
+final_plot <- ggpubr::ggarrange(plot1, plot2, common.legend = TRUE)
+final_plot
+```
+
+# A wealth of options 
+
+## Out there
+
+In this course, we learned a few ways to create `ggplot2` objects. Later today we'll see a few more. 
+
+However, __there's million of different ggplot2 object combinations that can be created.__
+
+I can't teach you all of them!
+
+# Out there
+
+__Googling is part of the job__: There is a wealth of posts, tutorials out there so don't be afraid to google things. Often times it's enough to Google: ggplot2 + the type of plot you want to create, or the question that you're trying to solve. 
+
+Chances are someone asked this question before you, already. 
+
+# What are we working on today? 
+
+## Topics
+
+* `geom_ridges()`
+* `annotate()`
+* `geom_histogram()`
+* `geom_smooth()`
+* And more!
