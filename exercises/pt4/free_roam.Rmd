@@ -1,0 +1,26 @@
+---
+title: "Free roam"
+author: "Massimiliano Canzi"
+output: html_document
+date: "2025-12-02"
+---
+
+We've learnt plenty so far, now let's try to apply it to new, undiscovered data sets. Let's do what data visualisation was made for: exploring and summarising data. For each of the following datasets, please create one ggplot object. We will comment these together if there's time. 
+
+--- 
+
+```{r}
+data1 <- swiss
+```
+
+---
+
+```{r}
+data2 <- nhtemp
+```
+
+---
+
+```{r}
+data3 <- as.data.frame(HairEyeColor)  
+```
