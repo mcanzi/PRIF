@@ -142,7 +142,7 @@ kable(head(df)) %>% kable_styling()
 
 - The name of the country should be on the y axis and each country should have two density lines within the same panel
 - `government_health_expenditure_pct_gdp` and `mortality_rate_infant` should be scaled 
-- Ethe colors and transparency
+- Edit colors and transparency
 - Look at the exercises of day 1 for how to manipulate the data 
 - Add a title and remove labels 
 
@@ -207,21 +207,16 @@ alpha <- c(0.7, 0,2)
 
 ```{r}
 ### Run this code 
-df %>% 
-  filter(time == 2018) %>%  
+df %>% ... 
   dplyr::select(2:16, 20) %>% 
   mutate_all(~scale(.x)) -> ex.c3
 ```
-
-
 
 ```{r}
 ### Write your code here 
 ```
 
-
 ------------------------------------------------------------------------
-
 
 ### Exercise C4: annotate_figure()
 
@@ -234,7 +229,6 @@ df %>%
 ```{r}
 ### Write your code here 
 ```
-
 
 ------------------------------------------------------------------------
 
@@ -253,14 +247,8 @@ df %>%
 
 ```{r}
 ### Run this code first 
-df %>% 
-  filter(sex == "TOT") %>% 
-  summarize(
-    mean = round(mean(rating),2), 
-    .by = c("country")
-  ) -> ex.c5
+df %>% ... -> ex.c5
 ```
-
 
 ```{r}
 ### Write your code here 
@@ -315,7 +303,6 @@ df %>%
 ### Write your code here 
 ```
 
-
 ------------------------------------------------------------------------
 
 ### Exercise C8: ggarrange() & annotate_figure()
@@ -341,8 +328,6 @@ df %>%
     .by = c("country", "time")
   ) -> ex.c8
 ```
-
-
 
 ```{r}
 ### Write your code here 

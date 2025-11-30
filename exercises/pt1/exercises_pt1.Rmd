@@ -159,8 +159,7 @@ The purpose of this exercise is to **select the right plot**. Here, the two vari
 
 ```{r}
 ### Run this 
-df %>% 
-  filter(country == "AUS") -> ex.a2
+df %>% ... -> ex.a2
 ```
 
 ```{r}
@@ -179,12 +178,10 @@ df %>%
 
 The purpose of this exercise is to **select the right plot**. Here, we have a **categorical** variable and a **continuous** variable. What is the best type of plot? 
 
-**Note**: You do not have to plot the "TOT" level from the `sex` column. To do this, add the following code before the `ggplot` function: 
-`df %>% filter(sex != "TOT")`. 
+**Note**: You do not have to plot the "TOT" level from the `sex` column. 
 
 ```{r}
-df %>% 
-  filter(sex != "TOT") %>% 
+df %>% ... %>% 
 ```
 
 
@@ -324,15 +321,8 @@ scale_shape_manual - choose pch (point) shape
 
 ```{r}
 ### Run this code 
-df %>% 
-  filter(country == "ITA" | country == "DEU") %>% 
-  summarize(
-    mean = mean(expenditure_on_education_pct_gdp), 
-    sd = sd(expenditure_on_education_pct_gdp), 
-    .by = "country"
-  ) -> ex.b5
+df %>% ... -> ex.b5
 ```
-
 
 ```{r}
 ### Write your code here 
@@ -346,7 +336,7 @@ df %>%
 
 ------------------------------------------------------------------------
 
-> Plot the distribution of the data on the plot of exercise B5
+> Plot the data points on the plot of exercise B5
 
 - Edit the color and lineyype as you prefer and reduce the dots opacity in `geom_jitter()`
 
@@ -362,8 +352,6 @@ df %>%
     .by = "country"
   ) -> challenge
 ```
-
-
 
 ```{r}
 ### Write your code here 

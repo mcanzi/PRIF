@@ -150,7 +150,7 @@ model <- lmer(taxes_on_income_profits_capital ~ tax_revenue + (1 | country), df)
 
 ```{r, message = F}
 ### Write your code here 
-plot_model(model, type = "pred", terms = c("tax_revenue"))
+
 ```
 
 ------------------------------------------------------------------------
@@ -162,7 +162,7 @@ plot_model(model, type = "pred", terms = c("tax_revenue"))
 > Let's extract the model estimates from the above model, using ggeffects' ggpredict() 
 
 ```{r}
-estimates <- ggpredict(model, terms = c("tax_revenue"))
+
 ```
 
 > Now, we can use ggplot to manually plot the estimates, using our preferred method and aesthestics. 
@@ -185,7 +185,7 @@ model2 <- lmer(taxes_on_income_profits_capital ~ tax_revenue * unemployment + (1
 ```
 
 ```{r}
-plot_model(model2, type = "pred", terms = c("unemployment", "tax_revenue"))
+
 ```
 
 > Let's extract the model estimates from the above model, using ggeffects' ggpredict() 
@@ -199,3 +199,24 @@ plot_model(model2, type = "pred", terms = c("unemployment", "tax_revenue"))
 ```{r}
 
 ```
+
+---
+
+### Exercise: D4
+
+------------------------------------------------------------------------
+
+> Test your own hypothesis based on the data, and produce a plot from your model estimates. Share your plot with the class. 
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
