@@ -22,6 +22,12 @@ library(tidyverse)
 library(palmerpenguins)
 ```
 
+## Useful links
+
+- www.github.com/mcanzi/prif
+
+- massimiliano.canzi@uni-konstanz.de
+
 ## Introduction
 
 Massimiliano (_Max_) Canzi 
