@@ -5,6 +5,7 @@ date: "2025-11-15"
 ---
 
 ```{r, include = F}
+library(gifski)
 # for loading our data
 library(countries)
 library(raster)
@@ -21,6 +22,12 @@ library(viridis)
 library(tidyverse)
 ```
 
+--- 
+
+Learn about 'shapefiles': https://r-graph-gallery.com/168-load-a-shape-file-into-r.html
+
+--- 
+
 ```{r}
 World <- tmap::World
 ```
@@ -28,6 +35,9 @@ World <- tmap::World
 ```{r, include = F}
 data <- read_csv("data/economics_and_education_dataset_CSV.csv") %>% 
   mutate(iso_a3 = country_name(index_code))
+```
+
+```{r, include = F}
 d2000s <- data %>% filter(time > 2001, time <= 2009) %>% 
   summarise(mmri = mean(mortality_rate_infant),
             unemployment = mean(unemployment), .by = c("time", "iso_a3"))
@@ -49,3 +59,38 @@ joint2010 <- World %>% left_join(d2010s, by = "iso_a3") %>%
   group_by(iso_a3) %>% slice_sample(n = 1) %>%  
   na.omit()
 ```
+
+```{r}
+tm_shape() + 
+  tm_polygons() + 
+  tm_compass()
+```
+
+Exercise: plot `mmri` for North and South America
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+---
+
+Exercise: make maps with the 'World' shapefile, and its built-in metrics e.g. HPI, pop.
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+---
+

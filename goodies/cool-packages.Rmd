@@ -66,9 +66,17 @@ library(ggstatsplot)
 ```{r}
 ggbetweenstats(penguins, 
                x = species,
-               y = flipper_length_mm)
+               y = flipper_length_mm) 
 ```
 
 ```{r}
 
+```
+
+---
+
+```{r}
+kids <- c("K800", "K801", "K802", "K804", "K808")
+data <- read_csv("sample.data.csv") %>% 
+  filter(kid %in% kids)
 ```

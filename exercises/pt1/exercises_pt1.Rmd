@@ -36,14 +36,14 @@ max-width: 85%
 ```
 
 ```{r, echo = F}
-# install.packages("ggplot2")
-# install.packages("ggridges")
-# install.packages("tidyverse")
-# install.packages("janitor")
-# install.packages("kableExtra")
-# install.packages("unikn")
-# install.packages("ggpubr")
-# install.packages("sjPlot")
+#install.packages("ggplot2")
+#install.packages("ggridges")
+#install.packages("tidyverse")
+#install.packages("janitor")
+#install.packages("kableExtra")
+#install.packages("unikn")
+#install.packages("ggpubr")
+#install.packages("sjPlot")
 
 library(tidyverse)
 library(ggplot2)
@@ -137,12 +137,20 @@ kable(head(df)) %>% kable_styling()
 
 > Plot the relationship between `alcohol_consumption_per_capita` and `suicide_mortality_rate`
 
+y ~ intercept + slope * x + e
+suicide_rate ~ alcohol consumption
+
 ------------------------------------------------------------------------
 
 The purpose of this exercise is to **select the right plot**. Here, the two variables are **continuous**. 
 
 ```{r, eval = F, warning = F}
-
+df %>% # data
+  ggplot(aes(x = alcohol_consumption_per_capita, 
+             y = suicide_mortality_rate)) + # aesthetics
+  geom_point() + 
+  geom_smooth(method="lm") + 
+  theme(legend.position="bottom") # geometry+
 ```
 
 ------------------------------------------------------------------------
@@ -158,12 +166,36 @@ The purpose of this exercise is to **select the right plot**. Here, the two vari
 The purpose of this exercise is to **select the right plot**. Here, the two variables are **continuous**. However, we have **time** data, so we want to see the trend of `government_health_expenditure_pct_gdp` over time. 
 
 ```{r}
-### Run this 
-df %>% ... -> ex.a2
+countries <- c("AUS")
+
+### Run this
+df %>% filter(country == "AUS", sex == "TOT") -> ex.a2
+#df %>% filter(country %in% countries) -> ex.a2.alt
 ```
 
 ```{r}
+df %>% select(1, 2)
+df %>% select(1, 2, 5)
+df %>% select(1:10)
+df %>% select(1, 10, 2:9)
+df %>% select(index = 1, 10, 2:9)
+df %>% select(-1, -2, -3)
+```
 
+```{r}
+ex.a2 %>% ggplot(aes(x = time, y = government_health_expenditure_pct_gdp)) + 
+  geom_line() + ylim(4, 8) +
+  geom_point()
+```
+
+```{r}
+ex.a2 %>% ggplot(aes(x = time, y = government_health_expenditure_pct_gdp)) + 
+  geom_smooth() + ylim(4, 8) + geom_point()
+```
+
+```{r}
+ex.a2 %>% ggplot(aes(x = time, y = government_health_expenditure_pct_gdp)) + 
+  geom_col() + ylim(0, 8)
 ```
 
 ------------------------------------------------------------------------
@@ -181,9 +213,21 @@ The purpose of this exercise is to **select the right plot**. Here, we have a **
 **Note**: You do not have to plot the "TOT" level from the `sex` column. 
 
 ```{r}
-df %>% ... %>% 
+df %>% 
+  #filter(sex != "TOT") %>% 
+  #mutate(sex = if_else(sex == "BOY", "Male", "Female")) %>% 
+  #mutate(sex = sub("BOY", "Male", sex)) %>% 
+  mutate(sex = case_when(
+    sex == "BOY" ~ "Male",
+    sex == "GIRL" ~ "Female", 
+    sex == "TOT" ~ "Total")) %>% 
+  filter(sex != "Total") %>% 
+  mutate(sex = fct_relevel(as.factor(sex), "Male")) %>% 
+  ggplot(aes(x = sex, y = rating)) +
+  geom_violin() + 
+  geom_jitter(width = 0.1) #+ 
+  #geom_boxplot(alpha = 0.5)
 ```
-
 
 ------------------------------------------------------------------------
 
@@ -197,6 +241,9 @@ df %>% ... %>%
 
 ```{r}
 ### Write your code here 
+df %>% 
+  ggplot(aes(x = rating)) + 
+  geom_density()
 ```
 
 ------------------------------------------------------------------------
@@ -213,6 +260,13 @@ df %>% ... %>%
 
 ```{r}
 ### Write your code here 
+df %>% 
+  filter(country == "DEU" | country == "ITA") %>% 
+  ggplot(aes(x = population_density, 
+             col = country, fill = country)) + 
+  geom_density() + xlim(150, 250) +
+  scale_fill_manual(values = c("indianred2", "deepskyblue4")) + 
+  scale_color_manual(values = c("indianred2", "deepskyblue4")) 
 ```
 
 ------------------------------------------------------------------------
@@ -246,6 +300,22 @@ df %>% ... %>%
 ------------------------------------------------------------------------
 
 ```{r}
+df %>% filter((country == "ITA" | country == "DEU") & sex != "TOT") %>% 
+  ggplot(aes(x = time, y = rating, col = sex, pch = sex, linetype = country)) + 
+  geom_point() + geom_line() + 
+  scale_color_manual(values = c("indianred3", "plum"), 
+                     name = "Sex", 
+                     labels = c("Male", "Female")) +
+  scale_shape_manual(values = c(10, 20), 
+                     name = "Sex", 
+                     labels = c("Male", "Female")) +
+  scale_linetype_manual(values = c("dotted", "dashed"), 
+                     name = "Sex", 
+                     labels = c("Male", "Female")) +
+  facet_wrap(~country) +
+  ylab("Rating (out of 1000") + xlab("Time (years)") +
+  theme_minimal() +
+  theme(legend.position = "top")
 ### Write your code here 
 ```
 
