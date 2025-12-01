@@ -339,7 +339,6 @@ scale_shape_manual - choose pch (point) shape
 - Remove the plot legend using `theme()`
 - Make the x axis text vertical using `theme()`
 - Remove axis labels
-- To filter only sex = TOT and time = 2018, add this before the `ggplot` function: `df %>% filter(sex == "TOT" & time == 2018)`
 
 ------------------------------------------------------------------------
 
@@ -429,3 +428,10 @@ df %>%
 ```
 
 ------------------------------------------------------------------------
+
+Loading different data sets: 
+
+```{r}
+a <- df %>% select(2)
+b <- df %>% select(3)
+```
